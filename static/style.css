@@ -1,0 +1,33 @@
+header{
+    padding-bottom: 10px;
+    word-spacing: 10px;
+    margin-top: -8px;
+    margin-left: -9px;
+    background-color: rgba(255, 114, 118, 1);
+    width: 110%;
+    height: 10%;
+    display: flex;
+    text-align: justify;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.buy{
+
+    width: 20%;
+    height: 50%;
+}
+.logo{
+    width: 10%;
+    height: 0%;
+}
+.found{
+    border: 0px;
+    border-radius: 5px;
+    padding-left: 10%;
+    background-color: rgb(255, 206, 206);
+    flex-grow: 1;
+    height: 33%;
+    align-self: center;
+    float: left
+}
