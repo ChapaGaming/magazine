@@ -1,33 +1,72 @@
+
+i{
+    color:rgb(255, 255, 255)
+}
 header{
-    padding-bottom: 10px;
-    word-spacing: 10px;
     margin-top: -8px;
     margin-left: -9px;
     background-color: rgba(255, 114, 118, 1);
-    width: 110%;
-    height: 10%;
+    width: 100vw;
+    max-height: 10%;
     display: flex;
     text-align: justify;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-wrap: wrap;
     align-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    .header-left{
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .header-right{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 70px;
+    }
+    
 }
 .buy{
-
-    width: 20%;
-    height: 50%;
+    width: 100px;
+    height: 100px;
 }
 .logo{
-    width: 10%;
-    height: 0%;
+    width: 100px;
+    height: 100px;
+
 }
 .found{
-    border: 0px;
+    height: 20px;
+    width: 700px;
     border-radius: 5px;
-    padding-left: 10%;
+    padding-left: 10px;
     background-color: rgb(255, 206, 206);
-    flex-grow: 1;
-    height: 33%;
-    align-self: center;
-    float: left
+
+    
+}
+.body{
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column wrap;
+    align-content: space-around;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+.product{
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    background-color: rgba(238, 236, 236, 1);
+    border-radius: 25px;
+    gap: 50px;
+
+}
+.description{
+    align-self: stretch;
+    max-width: 750px;
 }
