@@ -67,6 +67,7 @@ header{
 
 }
 .description{
+    margin-right: -24px;
     align-self: stretch;
     max-width: 750px;
 }

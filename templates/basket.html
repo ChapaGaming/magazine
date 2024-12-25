@@ -8,12 +8,13 @@
     
     <header>
        <div class="header-left">
-            <a href = "http://{{my_host}}:8000/"><img class = "logo" src="/static/logo.ico" ></a>
-            <b><i><h1>МАГАЗИН</h1></i></b>
+            <a href = "http://{{my_host}}:8000/basket?id=000001"><img class = "buy"src="/static/shop.ico"></a>
+            <b><i><h1>КОРЗИНА</h1></i></b>
        </div>
        <div class="header-right">
             <input name="found" id="found" class="found" placeholder="поиск...">
-            <a href = "http://{{my_host}}:8000/basket/?user_id={{user_id}}"><img class = "buy"src="/static/shop.ico"></a>
+            <a href = "http://{{my_host}}:8000/"><img class = "logo" src="/static/logo.ico" ></a>
+            
        </div>
     </header>
     <div class = "body">
@@ -21,7 +22,7 @@
             <h3>ТОВАР</h3>
             
             <text name = "description1"class = "description" > ВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВ ВВВВВ ВВВВВВВ ВВВВ</text>
-            <button type = "submit" name = "buy_form" value = "*ID*">купить</button>
+            <button type = "submit" name = "buy_button" value = "ID">купить</button>
             <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
         </form>
     </div>
