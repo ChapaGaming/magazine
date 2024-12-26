@@ -17,13 +17,15 @@
        </div>
     </header>
     <div class = "body">
-        <form action = "/" name = "place "class = "product" method="post">
-            <h3>ТОВАР</h3>
+        {% for id in range(all) %}
+            <form action = "/" name = "place "class = "product" method="post">
+                <h3>{{names[id]}}</h3>
             
-            <text name = "description1"class = "description" > ВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВ ВВВВВ ВВВВВВВ ВВВВ</text>
-            <button type = "submit" name = "buy_form" value = "*ID*">купить</button>
-            <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
-        </form>
+                <text name = "description"class = "description" > {{descriptions[id]}}</text>
+                <button type = "submit" name = "buy_form" value = "{{id+1}}">купить</button>
+                <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
+            </form>
+        {% endfor %}
     </div>
 </body>
 </html>
