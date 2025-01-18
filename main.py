@@ -13,7 +13,7 @@ import hashlib
 
 app = FastAPI(debug=True)
 global my_host
-my_host = "127.0.0.1"
+my_host = "192.168.0.101"
 # функции
 def create_db_and_tables():# обнуление/создание таблиц
     global engine
@@ -80,7 +80,7 @@ def read_root(session:SessionDep, request: Request, password: str|None = Form(..
     first = result.first()
     print(first)
     if not (first is None):
-        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.5; URL='/cataloge?pas={hash_pas}&email={hash_e}'" />""")
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.1; URL='/cataloge?pas={hash_pas}&email={hash_e}'" />""")
     return HTMLResponse(content=f'<h1 style = "color: red;">Пользователь не найден</h1>')
 
 @app.get("/register",response_class=HTMLResponse)
