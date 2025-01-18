@@ -3,8 +3,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from typing import Annotated
+import hashlib
+
+#--------------------------#
+# venv\Scripts\activate    #
+#                          #  
+# venv\Scripts\deactivate  #
+#--------------------------#
 
 app = FastAPI(debug=True)
+global my_host
 my_host = "127.0.0.1"
 # функции
 def create_db_and_tables():# обнуление/создание таблиц
@@ -16,8 +24,9 @@ def get_session(): #создание сессии
         yield session
 
 # pydantic
-class Acounts(SQLModel, table=True):
+class User(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    username: str
     email: str
     password: str
     basket: str|None
@@ -43,35 +52,90 @@ connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, connect_args=connect_args)
 SessionDep = Annotated[Session, Depends(get_session)]
 
-# использование функций
-
+# функции не связанные с fastapi
+def clear_db(db):
+    with Session(engine) as session:
+      results = session.exec(select(db)).all()
+      for result in results:
+          session.delete(result)
+      session.commit()
+def hashing(text):
+    return hashlib.sha256(text.encode()).hexdigest()# текст кодируется по сиситеме sha256 и префращфется в 16-ричную систему
 # обработка запросов
 @app.on_event("startup")
 def on_start():
     create_db_and_tables()
 
+@app.get("/",response_class=HTMLResponse)
+def read_root(request: Request):
+    req = {"request": request, "my_host": my_host}
+    return templates.TemplateResponse("login.html", req)
+
+@app.post("/")
+def read_root(session:SessionDep, request: Request, password: str|None = Form(...), email: str|None = Form(...)):
+    hash_e =hashing(email)
+    hash_pas = hashing(password)
+    statement = select(User).where(User.email == hash_e).where(User.password == hash_pas)
+    result = session.exec(statement)
+    first = result.first()
+    print(first)
+    if not (first is None):
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.5; URL='/cataloge?pas={hash_pas}&email={hash_e}'" />""")
+    return HTMLResponse(content=f'<h1 style = "color: red;">Пользователь не найден</h1>')
+
+@app.get("/register",response_class=HTMLResponse)
+def read_root(request: Request):
+    req = {"request": request, "my_host": my_host}
+    return templates.TemplateResponse("register.html", req)
+
+@app.post("/register",response_class=HTMLResponse)
+def read_root(session: SessionDep, request: Request, username: str = Form(...), email: str = Form(...), password: str = Form(...), rep_password: str = Form(...)):
+    if password == rep_password:
+        try:
+            hash_e = hashing(email)
+            hash_pas = hashing(password)
+            user = User(username = username, email = hash_e, password = hash_pas, basket = None)
+        except ValidationError as e:
+            return e
+        except Exception as e:
+            return e
+        email_query = select(User).where(User.email == hash_e)
+        result = session.exec(email_query)
+        first = result.first()
+        if not (first is None):
+            return HTMLResponse(content=f'<h1 style = "color: red;">Пользователь с такой почтой уже есть</h1>')
+        session.add(user)
+        session.commit()
+        session.refresh(user)
+        return f'<h1 style = "color: green;">Успешно</h1>'
+    return f'<h1 style = "color: red;">Пароли не совпадают</h1>'
+
 @app.get("/admin/add", response_class=HTMLResponse)
-async def read_root(request: Request):
+def read_root(request: Request):
     req = {"request": request}
     return templates.TemplateResponse("creater.html", req)
 
 @app.post("/admin/add", response_class=HTMLResponse)
-async def read_root(session: SessionDep,tovar: Cataloge = Form(None)) -> Cataloge:
-    session.add(tovar)
-    session.commit()
-    session.refresh(tovar)
-    return HTMLResponse(content='<h1 style = "color: green;">успешно!</h1>')
-    
+def read_root(session: SessionDep,tovar: Cataloge = Form(None)) -> Cataloge:
+    try:
+        if float(tovar.cost.replace(",",".")) > 0 and float(tovar.amount.replace(",",".")) > 0 and float(tovar.amount.replace(",",".")) % 1 == 0:
+            session.add(tovar)
+            session.commit()
+            session.refresh(tovar)
+            return HTMLResponse(content='<h1 style = "color: green;">успешно!</h1>')
+        return HTMLResponse(content='<h1 style = "color: red;">Ошибочные данные</h1>')
+    except ValueError:
+        return HTMLResponse(content='<h1 style = "color: red;">Цена и количество не могут быть символами</h1>')    
 
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request, session: SessionDep):
-    all = session.query(Cataloge).all()
+@app.get("/cataloge", response_class=HTMLResponse)
+def read_root(request: Request, session: SessionDep, pas: str|None, email:str|None):
+    alls = session.query(Cataloge).all()
     names = list()
     descriptions = list()
     costs = list()
     amounts = list()
-
-    for t in all:
+    print(email,pas)
+    for t in alls:
         amounts.append(t.amount)
         names.append(t.name)
         descriptions.append(t.description)
@@ -82,13 +146,13 @@ async def read_root(request: Request, session: SessionDep):
         "descriptions": descriptions,
         "costs": costs,
         "amounts": amounts,
-        "all": len(all)
+        "all": len(alls)
         }
-    return templates.TemplateResponse("index.html", req)
+    return templates.TemplateResponse("cataloge.html", req)
 
 @app.get("/basket/", response_class=HTMLResponse)
-async def basket(request: Request,user_id: int = -1):
-    global my_host
+def basket(request: Request,user_id: int = -1):
+    
     req = {
         "request": request,
         "my_host": my_host,
@@ -96,8 +160,8 @@ async def basket(request: Request,user_id: int = -1):
         }
     return templates.TemplateResponse("basket.html", req)
 
-@app.post("/")
-async def buying(session: SessionDep,request: Request, buy_form: int = Form(...)):
+@app.post("/cataloge")
+def buying(session: SessionDep,request: Request, buy_form: int = Form(...)):
     id = buy_form
     tovar = session.get(Cataloge,id)
     return tovar
