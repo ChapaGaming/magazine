@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <style>
+        h1{
+            font-family: cursive;
+        }
+
+        body {
+            background-color: rgba(255, 114, 118, 1);
+            color: rgba(255, 255, 255, 1);
+            font-family: Arial, sans-serif;
+            gap: 20px;
+        }
+
+        .form_reg {
+            background-color: rgba(255, 255, 255, 1);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            margin: 0 auto;
+        }
+        .form_reg label{
+            color: rgba(255, 114, 118, 1);
+            font-family: cursive;
+        }
+        .form_reg input[type="text"],
+        .form_reg input[type="email"],
+        .form_reg input[type="password"] {
+            width: 94%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .form_reg button[type="submit"] {
+            background-color: rgba(255, 114, 118, 1);
+            color: rgba(255, 255, 255, 1);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: cursive;
+        }
+        .form_reg button[type="submit"]:hover {
+            background-color: rgba(204, 60, 64, 1);
+        }
+        a{
+            color:rgba(255, 114, 118, 1);
+            margin-left: 50px;
+            font-family: cursive;
+        }
+    </style>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form class = "form_reg" action="http://{{my_host}}:8000/register" method="post">
+        <label for="username">Имя:</label><br>
+        <input type="text" name="username" minlength="4"><br><br>
+
+        <label for="email">Почта:</label><br>
+        <input type="email" name="email" minlength="1"><br><br>
+
+        <label for="password">Пароль:</label><br>
+        <input type="password" name="password" minlength="4"><br><br>
+
+        <label for="rep_password">Повторите пароль:</label><br>
+        <input type="rep_password" name="rep_password" minlength="4"><br><br>
+
+        <button type="submit" >Создать акаунт</button><a href = "http://{{my_host}}:8000/"> Вход</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <style>
+        body {
+            background-color: rgba(255, 114, 118, 1);
+            color: rgba(255, 255, 255, 1);
+            font-family: cursive;
+        }
+        
+        .form_login input[type="submit"]:hover {
+            background-color: rgba(204, 60, 64, 1);
+        }
+
+        .form_login {
+            background-color: rgba(255, 255, 255, 1);
+            padding: 20px;
+            border-radius: 5px;
+            width: 300px;
+            margin: 0 auto;
+            font-family: cursive;
+        }
+
+        .form_login input[type="email"],
+        .form_login input[type="password"] {
+            width: 94%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+        .form_login label{
+            color: rgba(255, 114, 118, 1)
+        }
+        .form_login button[type="submit"] {
+            background-color: rgba(255, 114, 118, 1);
+            color: rgba(255, 255, 255, 1);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+
+        .form_login button[type="submit"]:hover {
+            background-color: rgba(204, 60, 64, 1);
+        }
+        a{
+            color:rgba(255, 114, 118, 1);
+            margin-left: 50px;
+            font-family: cursive;
+        }
+        
+
+    </style>
+</head>
+
+<body>
+    <h1>Вход</h1>
+    <form class="form_login" action="http://{{my_host}}:8000/" method="post">
+        <label for="email">Почта:</label><br>
+        <input type="email" name="email"><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" name="password"><br>
+        <button type="submit">Войти</button><a href = "http://{{my_host}}:8000/register"> Регистрация</a>
+    </form>
+    <script>{{code_js}}</script>
+</body>
+
+</html>
