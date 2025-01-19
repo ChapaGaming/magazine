@@ -12,8 +12,9 @@ import hashlib
 #--------------------------#
 
 app = FastAPI(debug=True)
-global my_host
-my_host = "192.168.0.101"
+global HOST, PORT
+HOST = "192.168.0.101"
+PORT = 8000
 # функции
 def create_db_and_tables():# обнуление/создание таблиц
     global engine
@@ -68,7 +69,7 @@ def on_start():
 
 @app.get("/",response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request, "my_host": my_host}
+    req = {"request": request, "HOST": HOST, "PORT": PORT}
     return templates.TemplateResponse("login.html", req)
 
 @app.post("/")
@@ -80,12 +81,12 @@ def read_root(session:SessionDep, request: Request, password: str|None = Form(..
     first = result.first()
     print(first)
     if not (first is None):
-        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.1; URL='/cataloge?pas={hash_pas}&email={hash_e}'" />""")
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.1; URL='/cataloge?email={hash_e}'" />""")
     return HTMLResponse(content=f'<h1 style = "color: red;">Пользователь не найден</h1>')
 
 @app.get("/register",response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request, "my_host": my_host}
+    req = {"request": request, "HOST": HOST, "PORT": PORT}
     return templates.TemplateResponse("register.html", req)
 
 @app.post("/register",response_class=HTMLResponse)
@@ -112,13 +113,16 @@ def read_root(session: SessionDep, request: Request, username: str = Form(...), 
 
 @app.get("/admin/add", response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request}
+    req = {"request": request, "PORT": PORT}
     return templates.TemplateResponse("creater.html", req)
 
 @app.post("/admin/add", response_class=HTMLResponse)
-def read_root(session: SessionDep,tovar: Cataloge = Form(None)) -> Cataloge:
+def read_root(session: SessionDep, description: str = Form(...), name: str = Form(...), amount: str = Form(...), cost: str = Form(...)):
     try:
-        if float(tovar.cost.replace(",",".")) > 0 and float(tovar.amount.replace(",",".")) > 0 and float(tovar.amount.replace(",",".")) % 1 == 0:
+        amount = float(amount.replace(",","."))
+        cost = float(cost.replace(",","."))
+        if cost > 0 and amount > 0 and amount % 1 == 0:
+            tovar = Cataloge(description=description, name=name, amount=amount, cost=cost)
             session.add(tovar)
             session.commit()
             session.refresh(tovar)
@@ -128,13 +132,12 @@ def read_root(session: SessionDep,tovar: Cataloge = Form(None)) -> Cataloge:
         return HTMLResponse(content='<h1 style = "color: red;">Цена и количество не могут быть символами</h1>')    
 
 @app.get("/cataloge", response_class=HTMLResponse)
-def read_root(request: Request, session: SessionDep, pas: str|None, email:str|None):
+def read_root(request: Request, session: SessionDep, email:str|None):
     alls = session.query(Cataloge).all()
     names = list()
     descriptions = list()
     costs = list()
     amounts = list()
-    print(email,pas)
     for t in alls:
         amounts.append(t.amount)
         names.append(t.name)
@@ -146,26 +149,31 @@ def read_root(request: Request, session: SessionDep, pas: str|None, email:str|No
         "descriptions": descriptions,
         "costs": costs,
         "amounts": amounts,
-        "all": len(alls)
+        "all": len(alls),
+        "PORT": PORT,
+        "HOST": HOST,
+        "email": email
         }
     return templates.TemplateResponse("cataloge.html", req)
 
 @app.get("/basket/", response_class=HTMLResponse)
-def basket(request: Request,user_id: int = -1):
+def basket(request: Request, email:str|None):
     
     req = {
         "request": request,
-        "my_host": my_host,
-        "user_id": user_id
+        "HOST": HOST,
+        "PORT": PORT,
+        "email": email
         }
     return templates.TemplateResponse("basket.html", req)
 
 @app.post("/cataloge")
 def buying(session: SessionDep,request: Request, buy_form: int = Form(...)):
+    return buy_form
     id = buy_form
     tovar = session.get(Cataloge,id)
-    return tovar
+    return tovar.id,tovar.name, tovar.amount
     
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host=my_host, port=8000)
+    uvicorn.run(app, host=HOST, port=PORT)

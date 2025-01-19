@@ -1,12 +1,20 @@
-
+body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer и Edge */
+  }
+  
+  ::-webkit-scrollbar {
+    display: none; /* WebKit (Chrome, Safari, Opera) */
+  }
 i{
     color:rgb(255, 255, 255)
 }
 header{
-    margin-top: -8px;
-    margin-left: -9px;
+    position: fixed;
+    margin-top: -7px;
+    margin-left: -8px;
     background-color: rgba(255, 114, 118, 1);
-    width: 100vw;
+    width: 100%;
     max-height: 10%;
     display: flex;
     text-align: justify;
@@ -45,29 +53,45 @@ header{
     border-radius: 5px;
     padding-left: 10px;
     background-color: rgb(255, 206, 206);
-
+    border: 0px;
     
 }
-.body{
-    display: flex;
-    flex-wrap: wrap;
-    flex-flow: column wrap;
-    align-content: space-around;
-    justify-content: center;
-    margin-top: 30px;
-    gap: 20px;
+.parent{
+    width: 500px; /* Фиксированная ширина родителя */
 }
-.product{
+
+.product {
     display: flex;
-    align-content: center;
-    justify-content: space-evenly;
-    background-color: rgba(238, 236, 236, 1);
-    border-radius: 25px;
-    gap: 50px;
+    flex-direction: row; /* Обязательное условие */
+    align-items: flex-start; /* Выравнивание по верху */
+    justify-content: space-between; /* Распределение пространства между элементами */
+    padding: 10px; /* Отступ для видимых границ */
+    border: 1px solid #ddd; /* Для наглядности */
+    margin-bottom: 10px; /* Отступ между формами */
+}
+
+
+.product table {
+  /* Делаем таблицы не растягиваемыми */
+    flex: none; /* Не позволяет таблицам растягиваться */
+    margin-right: 10px;
+}
+
+.product .description {
+   flex: 1; /* Занимает оставшееся пространство */
+   padding: 0 20px; /* Дополнительные отступы */
+    box-sizing: border-box; /* Включает отступы в расчет ширины */
 
 }
-.description{
-    margin-right: -24px;
-    align-self: stretch;
-    max-width: 750px;
+.product .buy{
+    border-radius: 20px;
+    color: white;
+    font-family: cursive;
+    font-size: 20px;
+    background-color: rgb(17, 202, 26);    
+    max-height: 40px;
+    border: 0px;
+}
+.body{
+    margin-top: 50px;
 }

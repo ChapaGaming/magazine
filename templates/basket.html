@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Каталог</title>
+    <title>Корзина</title>
     <link rel="stylesheet" href="/static/style.css">
     
 </head>
     
     <header>
        <div class="header-left">
-            <a href = "http://{{my_host}}:8000/basket?id=000001"><img class = "buy"src="/static/shop.ico"></a>
+            <a href = "http://{{HOST}}:{{PORT}}/basket?email={{email}}"><img class = "buy"src="/static/shop.ico"></a>
             <b><i><h1>КОРЗИНА</h1></i></b>
        </div>
        <div class="header-right">
             <input name="found" id="found" class="found" placeholder="поиск...">
-            <a href = "http://{{my_host}}:8000/"><img class = "logo" src="/static/logo.ico" ></a>
+            <a href = "http://{{HOST}}:{{PORT}}/cataloge?email={{email}}"><img class = "logo" src="/static/logo.ico" ></a>
             
        </div>
     </header>
