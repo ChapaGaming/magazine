@@ -1,65 +1,76 @@
+/* Общие стили (отключаем полосы прокрутки) */
 body {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer и Edge */
-  }
-  
-  ::-webkit-scrollbar {
-    display: none; /* WebKit (Chrome, Safari, Opera) */
-  }
-i{
-    color:rgb(255, 255, 255)
-}
-header{
-    position: fixed;
-    margin-top: -7px;
-    margin-left: -8px;
-    background-color: rgba(255, 114, 118, 1);
-    width: 100%;
-    max-height: 10%;
-    display: flex;
-    text-align: justify;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    .header-left{
-        display: flex;
-        gap: 50px;
-        align-items: center;
-    }
-
-    .header-right{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        gap: 70px;
-    }
-    
-}
-.buy{
-    width: 100px;
-    height: 100px;
-}
-.logo{
-    width: 100px;
-    height: 100px;
-
-}
-.found{
-    height: 20px;
-    width: 700px;
-    border-radius: 5px;
-    padding-left: 10px;
-    background-color: rgb(255, 206, 206);
-    border: 0px;
-    
-}
-.parent{
-    width: 500px; /* Фиксированная ширина родителя */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer и Edge */
+  margin-top: 50px;
 }
 
+::-webkit-scrollbar {
+  display: none; /* WebKit (Chrome, Safari, Opera) */
+}
+
+/* Стили для текста и заголовков */
+i {
+  color: rgb(255, 255, 255);
+}
+
+/* Стили для header */
+header {
+  position: fixed;
+  margin-top: -50px;
+  margin-left: -8px;
+  background-color: rgba(255, 114, 118, 1);
+  width: 100%;
+  max-height: 10%;
+  display: flex;
+  text-align: justify;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+header .header-left {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+header .header-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 70px;
+}
+
+/* Стили для логотипа и корзины */
+.buy {
+  width: 100px;
+  height: 100px;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+
+/* Стили для поля поиска */
+.found {
+  height: 20px;
+  width: 700px;
+  border-radius: 5px;
+  padding-left: 10px;
+  background-color: rgb(255, 206, 206);
+  border: 0px;
+}
+
+/* Стили для контейнера с товарами (parent) */
+.parent {
+    width: 500px; /* Фиксированная ширина родителя*/
+}
+
+/* Стили для карточки товара (product) */
 .product {
     display: flex;
     flex-direction: row; /* Обязательное условие */
@@ -70,28 +81,88 @@ header{
     margin-bottom: 10px; /* Отступ между формами */
 }
 
-
-.product table {
-  /* Делаем таблицы не растягиваемыми */
-    flex: none; /* Не позволяет таблицам растягиваться */
-    margin-right: 10px;
+.product table { /* Делаем таблицы нерастягиваемыми */
+  flex: none; /* Не позволяет таблицам растягиваться */
+  margin-right: 10px;
+}
+.product text {
+  flex: 1; /* Занимает оставшееся пространство */
+  padding: 0 20px; /* Дополнительные отступы */
+  box-sizing: border-box; /* Включает отступы в расчет ширины */
+  word-break: break-all; /* Перенос слов */
 }
 
-.product .description {
-   flex: 1; /* Занимает оставшееся пространство */
-   padding: 0 20px; /* Дополнительные отступы */
-    box-sizing: border-box; /* Включает отступы в расчет ширины */
+.product button[type="submit"] {
+  border-radius: 20px;
+  color: white;
+  font-family: cursive;
+  font-size: 20px;
+  background-color: rgb(17, 202, 26);
+  max-height: 40px;
+  border: 0px;
+}
+.body{margin-top:50px;}
+
+/* Стили для корзины (basket) */
+.basket {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.basket table { /* Делаем таблицы нерастягиваемыми в корзине*/
+  flex: none;
+  margin-right: 10px;
+}
+
+.basket .basket_parent {
+  flex: 1;
+  padding: 0 20px;
+  box-sizing: border-box;
+  word-break: break-all;
+}
+
+.plus {
+  width: 30px;
+  border-radius: 100px;
+  color: white;
+  font-family: cursive;
+  font-size: 20px;
+  max-height: 40px;
+  border: 0px;
+  background-color: rgb(17, 202, 26);
+}
+
+.minus {
+  width: 30px;
+  border-radius: 100px;
+  color: white;
+  font-family: cursive;
+  font-size: 20px;
+  max-height: 40px;
+  border: 0px;
+  background-color: rgb(202, 17, 17);
+}
+.amounter{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap:10px;
 
 }
-.product .buy{
-    border-radius: 20px;
-    color: white;
-    font-family: cursive;
-    font-size: 20px;
-    background-color: rgb(17, 202, 26);    
-    max-height: 40px;
-    border: 0px;
+.basker_N{
+  font-size: larger;
+  font-style: normal;
+  width: 40px;
+  border: 0px;
+  margin-top: 20px;
 }
-.body{
-    margin-top: 50px;
+basker_N[readonly]
+{
+    background-color:blue;
 }

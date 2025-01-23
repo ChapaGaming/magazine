@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <title>Каталог</title>
-    <link rel="stylesheet" href="\static\style.css">
+    <link rel="stylesheet" href="http://{{HOST}}:{{PORT}}/static/style.css">
     
 </head>
     
@@ -12,36 +12,42 @@
             <b><i><h1>МАГАЗИН</h1></i></b>
        </div>
        <div class="header-right">
-            <input name="found" id="found" class="found" placeholder="поиск...">
+            <form name = "found" method="get" action="/cataloge?email={{email}}">
+                <table  style="margin-top: -10px;">
+                    <tr><td><input name="email" value = "{{email}}" style="visibility:hidden; width: 0px; height: 0px;"></td></tr>
+                    <tr><td><input name="searching" class="found" placeholder="поиск..." value="{{searching}}"></td></tr> 
+                    
+                </table>
+                <button type="submit" style="visibility:hidden; width: 0px; height: 0px;"></button>
+            </form>
             <a href = "http://{{HOST}}:{{PORT}}/basket/?email={{email}}"><img class = "buy"src="/static/shop.ico"></a>
        </div>
     </header>
     <br>
+    <body>
     <div class = "production">
-        <br><br><br><br><br>
-        {% for id in range(all) %}
-            <form action = "/" name = "place "class = "product" method="post">
+        <br><br>
+        {% for product in production %}
+            <form action = "/cataloge?email={{email}}" name = "place "class = "product" method="post">
                 <table>
                     <tr>
-                        <td><h3>{{names[id]}}</h3></td>
+                        <td><h3>{{product.name}}</h3></td>
                     </tr>
                     <tr>
-                        <td><h5>Цена: {{costs[id]}} рублей</h5></td>
+                        <td><h5>Цена: {{product.cost}} рублей</h5></td>
                     </tr>
                 </table>
-                <text name = "description"class = "description" > {{descriptions[id]}}</text>
+                <text name = "description"class = "description" > {{product.description}}</text>
                 <table>
                     <tr>
-                        <td><h3><button class = "buy" type = "submit" name = "buy_form" value = "{{id+1}}">купить</button></h3></td>
+                        <td><h3><button class = "buy" type = "submit" name = "buy_form" value = "{{product.id}}">купить</button></h3></td>
                     </tr>
                     <tr>
-                        <td><h5>В наличии: {{amounts[id]}}</h5></td>
+                        <td><h5>В наличии: {{product.amount}}</h5></td>
                     </tr>
                 </table>
-                
-                <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
             </form>
         {% endfor %}
     </div>
-</body>
+    </body>
 </html>

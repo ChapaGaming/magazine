@@ -3,28 +3,82 @@
 <head>
     <title>Корзина</title>
     <link rel="stylesheet" href="/static/style.css">
-    
 </head>
-    
+<body>
     <header>
-       <div class="header-left">
-            <a href = "http://{{HOST}}:{{PORT}}/basket?email={{email}}"><img class = "buy"src="/static/shop.ico"></a>
+        <div class="header-left">
+            <a href="http://{{HOST}}:{{PORT}}/basket?email={{email}}">
+                <img class="buy" src="/static/shop.ico">
+            </a>
             <b><i><h1>КОРЗИНА</h1></i></b>
-       </div>
-       <div class="header-right">
-            <input name="found" id="found" class="found" placeholder="поиск...">
-            <a href = "http://{{HOST}}:{{PORT}}/cataloge?email={{email}}"><img class = "logo" src="/static/logo.ico" ></a>
-            
-       </div>
+        </div>
+        <div class="header-right">
+            <form name = "found" method="get" action="/basket?email={{email}}">
+                <table  style="margin-top: -10px;">
+                    
+                    <tr><td><input name="email" value = "{{email}}" type="hidden"></td></tr>
+                    <tr><td><input name="searching" class="found" placeholder="поиск..." value="{{searching}}"></td></tr> 
+                </table>
+                <button type="submit" style="visibility:hidden; width: 0px; height: 0px;"></button>
+            </form>
+            <a href="http://{{HOST}}:{{PORT}}/cataloge?email={{email}}">
+                <img class="logo" src="/static/logo.ico">
+            </a>
+        </div>
     </header>
-    <div class = "body">
-        <form action = "/" name = "place "class = "product" method="post">
-            <h3>ТОВАР</h3>
-            
-            <text name = "description1"class = "description" > ВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВВВВВВ ВВВВВВВВВ ВВВВВ ВВВВВВВ ВВВВ</text>
-            <button type = "submit" name = "buy_button" value = "ID">купить</button>
-            <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
+
+    <div class="basket_parent">
+        <br><br><br>
+        {% for product in forms %}
+        <form action="/basket?email={{email}}" name="place" class="basket" method="post">
+            <table>
+                <tr>
+                    <td><h3>{{ product.name }}</h3></td>
+                </tr>
+                <tr>
+                    <td><h5>Цена: {{ product.cost }} рублей</h5></td>
+                </tr>
+            </table>
+            <p name = "description"class = "description" >{{ product.description }}</p>
+            <table>
+                <tr>
+                    <td class="amounter">
+                        <input type="hidden" name="action" value="">
+                        <h3>
+                            <input class="minus" type="button" name="bminus" onclick="minus( {{product.id}} )" value = "-">
+                        </h3>
+                        <input id = "how{{ product.id }}" class = "basker_N" value = "1" name = "how">
+                        <h3>
+                            <input class="plus"  type="button" name="bplus" onclick="plus( {{product.id}} )" value = "+">
+                        </h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h5>В наличии: {{ product.amount }}</h5></td>
+                </tr>
+            </table>
         </form>
+        <script>
+            let N{{product.id}} = 1;
+        </script>
+        {% endfor %}
+        <script>
+            function minus(id){
+            let inputId = "how"+id;
+            let value = document.getElementById(inputId).value;
+            if(value > 1)
+            {
+                document.getElementById(inputId).value = value - 1;
+            }
+
+            }
+            function plus(id){
+                let inputId = "how"+id;
+                let value = document.getElementById(inputId).value;
+                document.getElementById(inputId).value = Number(value) + 1;
+
+            }
+        </script>
     </div>
 </body>
 </html>

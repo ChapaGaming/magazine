@@ -10,8 +10,8 @@
         <center>
             <h1>Создание товаров</h1><br>
             <input name = "name" placeholder="Введите название"><br>
-            <input name = "description" placeholder="Введите описание"><br>
-            <input name = "amount" placeholder="Введите количество"><br>
+            <input name = "description" placeholder="Введите описание" max = "1504"><br> <!-- 1504 - это произведение символов в строке на количество переносов строк  -->
+            <input name = "amount" placeholder="Введите количество" max = 999999999999><br> <!-- max = 999999999999 = 999 млрд  -->
             <input name = "cost" placeholder="Введите цену"><br>
             <button type = "submit" name = "create" value = "ID">создать</button>
             <!--тут надо сделать чтобы была цена (cost) и количество(amount)-->
