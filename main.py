@@ -14,8 +14,8 @@ import hashlib
 
 app = FastAPI(debug=True)
 global HOST, PORT
-HOST = "192.168.0.102"
-PORT = 8000
+HOST = os.environ.get("HOST", "0.0.0.0")  # По умолчанию "0.0.0.0"
+PORT = int(os.environ.get("PORT", 8000))  # По умолчанию 8000
 
 # sqlmodel(pydantic)
 class UserCatalogeLink(SQLModel, table = True):
