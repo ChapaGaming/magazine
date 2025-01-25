@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 from typing import Annotated
 from sqlalchemy import func
 import hashlib
-import os
 
 #--------------------------#
 # venv\Scripts\activate    #
@@ -15,9 +14,6 @@ import os
 
 app = FastAPI(debug=True)
 global HOST, PORT
-HOST = os.environ.get("HOST", "0.0.0.0")  # По умолчанию "0.0.0.0"
-PORT = int(os.environ.get("PORT", 8000))  # По умолчанию 8000
-
 # sqlmodel(pydantic)
 class UserCatalogeLink(SQLModel, table = True):
     user_id:  int | None = Field(default=None, foreign_key="user.id", primary_key=True)
@@ -79,7 +75,7 @@ def on_start():
     create_db_and_tables()
 @app.get("/",response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request, "HOST": HOST, "PORT": PORT}
+    req = {"request": request}
     return templates.TemplateResponse("login.html", req)
 
 @app.post("/")
@@ -95,7 +91,7 @@ def read_root(session:SessionDep, request: Request, password: str|None = Form(..
 
 @app.get("/register",response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request, "HOST": HOST, "PORT": PORT}
+    req = {"request": request}
     return templates.TemplateResponse("register.html", req)
 
 @app.post("/register",response_class=HTMLResponse)
@@ -122,7 +118,7 @@ def read_root(session: SessionDep, request: Request, username: str = Form(...), 
 
 @app.get("/admin/add", response_class=HTMLResponse)
 def read_root(request: Request):
-    req = {"request": request, "PORT": PORT}
+    req = {"request": request}
     return templates.TemplateResponse("creater.html", req)
 
 @app.post("/admin/add", response_class=HTMLResponse)
@@ -144,8 +140,6 @@ def read_root(session: SessionDep, description: str = Form(...), name: str = For
 def basket(session: SessionDep, request: Request, email:str|None, searching: str | None = None):
     req = {
         "request": request,
-        "PORT": PORT,
-        "HOST": HOST,
         "searching":"",
         "email": email,
         "forms": [] # Устанавливаем production по умолчанию пустым списком
@@ -167,8 +161,6 @@ def basket(session: SessionDep, request: Request, email:str|None, searching: str
 async def read_root(request: Request, session: SessionDep, email: str | None = None, searching: str | None = None):
     req = {
         "request": request,
-        "PORT": PORT,
-        "HOST": HOST,
         "email": email,
         "searching":"",
         "production": [] # Устанавливаем production по умолчанию пустым списком
@@ -202,6 +194,6 @@ def buying(session: SessionDep,request: Request, email:str|None, buy_form: int =
     if not searching:
         searching=""
     return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.5; URL='/cataloge?email={email}&searching={searching}'" />""")
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host=HOST, port=PORT)
+#if __name__ == "__main__":
+#    import uvicorn
+#    uvicorn.run(app, host=HOST, port=PORT)
