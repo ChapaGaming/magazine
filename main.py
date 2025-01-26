@@ -146,6 +146,8 @@ def basket(session: SessionDep, request: Request, email:str|None, searching: str
     }
     statement = select(User).where(User.email == email)
     user = session.exec(statement).one()
+    if user is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
     if searching and searching.strip() and user:
         statement = select(Cataloge).where(Cataloge.name.like(f"%{searching.upper()}%"))
         alls = session.exec(statement).all()
