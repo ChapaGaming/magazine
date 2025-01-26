@@ -9,160 +9,142 @@ body {
   display: none; /* WebKit (Chrome, Safari, Opera) */
 }
 
-/* Стили для текста и заголовков */
-i {
-  color: rgb(255, 255, 255);
+body {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer и Edge */
+  }
+  
+  ::-webkit-scrollbar {
+    display: none; /* WebKit (Chrome, Safari, Opera) */
+  }
+i{
+    color:rgb(255, 255, 255)
 }
-
-/* Стили для header */
-header {
-  position: fixed;
-  margin-top: -50px;
-  margin-left: -8px;
-  background-color: rgba(255, 114, 118, 1);
-  width: 100%;
-  max-height: 10%;
-  display: flex;
-  text-align: justify;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-
-header .header-left {
-  display: flex;
-  gap: 50px;
-  align-items: center;
-}
-
-header .header-right {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 70px;
-}
-
-/* Стили для логотипа и корзины */
-.buy {
-  width: 100px;
-  height: 100px;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
-}
-
-/* Стили для поля поиска */
-.found {
-  height: 20px;
-  width: 700px;
-  border-radius: 5px;
-  padding-left: 10px;
-  background-color: rgb(255, 206, 206);
-  border: 0px;
-}
-
-/* Стили для контейнера с товарами (parent) */
-.parent {
-    width: 500px; /* Фиксированная ширина родителя*/
-}
-
-/* Стили для карточки товара (product) */
-.product {
+header{
+    position: fixed;
+    margin-top: -8px;
+    margin-left: -8px;
+    background-color: rgba(255, 114, 118, 1);
+    width: 100%;
+    /* Увеличили высоту шапки */
+     height: 80px;
     display: flex;
-    flex-direction: row; /* Обязательное условие */
-    align-items: flex-start; /* Выравнивание по верху */
-    justify-content: space-between; /* Распределение пространства между элементами */
-    padding: 10px; /* Отступ для видимых границ */
-    border: 1px solid #ddd; /* Для наглядности */
-    margin-bottom: 10px; /* Отступ между формами */
+    text-align: justify;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 10px; /* Добавили отступы для контента */
+      box-sizing: border-box; /* Учитывает padding в ширине */
+
+    .header-left{
+        display: flex;
+        /* Уменьшили отступ между элементами */
+        gap: 10px;
+        align-items: center;
+    }
+    .header-right{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 10px; /* Уменьшили отступы между элементами */
+    }
+    
+}
+.buy{
+    width: 100px;
+    height: 100px;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: url(grayscale.svg); /* Firefox 4+ */
+    filter: gray; /* IE 6-9 */
+}
+.logo{
+    width: 100px;
+    height: 100px;
+
+}
+.found{
+    height: 20px;
+    border-radius: 5px;
+    padding-left: 10px;
+    background-color: rgb(255, 206, 206);
+    border: 0px;
+}
+.parent{
+    width: 500px; /* Фиксированная ширина родителя */
 }
 
-.product table { /* Делаем таблицы нерастягиваемыми */
-  flex: none; /* Не позволяет таблицам растягиваться */
-  margin-right: 10px;
-}
-.product text {
-  flex: 1; /* Занимает оставшееся пространство */
-  padding: 0 20px; /* Дополнительные отступы */
-  box-sizing: border-box; /* Включает отступы в расчет ширины */
-  word-break: break-all; /* Перенос слов */
-}
-
-.product button[type="submit"] {
-  border-radius: 20px;
-  color: white;
-  font-family: cursive;
-  font-size: 20px;
-  background-color: rgb(17, 202, 26);
-  max-height: 40px;
-  border: 0px;
-}
-.body{margin-top:50px;}
-
-/* Стили для корзины (basket) */
-.basket {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-}
-
-.basket table { /* Делаем таблицы нерастягиваемыми в корзине*/
-  flex: none;
-  margin-right: 10px;
-}
-
-.basket .basket_parent {
-  flex: 1;
-  padding: 0 20px;
-  box-sizing: border-box;
-  word-break: break-all;
-}
-
-.plus {
-  width: 30px;
-  border-radius: 100px;
-  color: white;
-  font-family: cursive;
-  font-size: 20px;
-  max-height: 40px;
-  border: 0px;
-  background-color: rgb(17, 202, 26);
-}
-
-.minus {
-  width: 30px;
-  border-radius: 100px;
-  color: white;
-  font-family: cursive;
-  font-size: 20px;
-  max-height: 40px;
-  border: 0px;
-  background-color: rgb(202, 17, 17);
-}
-.amounter{
+.product {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: center;
-    gap:10px;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+
+.product table {
+    flex: none;
+    margin-right: 10px;
+}
+
+.product .description {
+   flex: 1;
+   padding: 0 20px;
+    box-sizing: border-box;
 
 }
-.basker_N{
-  font-size: larger;
-  font-style: normal;
-  width: 40px;
-  border: 0px;
-  margin-top: 20px;
+.product .buy{
+    border-radius: 20px;
+    color: white;
+    font-family: cursive;
+    font-size: 20px;
+    background-color: rgb(17, 202, 26);
+    max-height: 40px;
+    border: 0px;
 }
-basker_N[readonly]
-{
-    background-color:blue;
+.body{
+    margin-top: 50px;
+}
+/* ==================== СТИЛИ ДЛЯ ТЕЛЕФОНА (МЕНЬШЕ 600px) ==================== */
+/* Медиа-запрос для экранов шириной до 600px (обычно телефоны) */
+@media (max-width: 600px) {
+      header {
+        /* Уменьшили высоту шапки */
+        top: -2px;
+          height: 60px;
+          flex-wrap: wrap; /* Разрешить элементам переноситься на новую строку */
+         padding: 5px; /* Уменьшаем padding */
+         flex-direction: column; /* Установили вертикальную ось */
+         align-items: center; /* Центрируем элементы вертикально */
+         gap: 5px; /* Уменьшаем отступы между элементами */
+    }
+     .header-left,
+     .header-right {
+        display: flex; /* Убрали flex-wrap */
+        justify-content: center; /* Выравниваем содержимое по центру */
+        align-items: center; /* Выравниваем по вертикали */
+        gap: 5px;
+     }
+
+
+    .logo {
+      width: 50px;
+       height: 50px;
+    }
+    .found{
+        width: 100px; /* Уменьшили ширину поля поиска */
+    }
+    .buy {
+      width: 60px; /* Уменьшили ширину изображения */
+      height: 60px; /* Уменьшили высоту изображения */
+    }
 }
