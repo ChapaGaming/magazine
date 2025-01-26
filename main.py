@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, staticfiles, Request, Query, Depends, Form
-from sqlmodel import Field, Session, SQLModel, create_engine, select, Relationship, or_
+from sqlmodel import Field, Session, SQLModel, create_engine, select, Relationship, or_, and_
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from typing import Annotated
@@ -144,16 +144,21 @@ def basket(session: SessionDep, request: Request, email:str|None, searching: str
         "email": email,
         "forms": [] # Устанавливаем production по умолчанию пустым списком
     }
-    
-    if searching and searching.strip():
+    statement = select(User).where(User.email == email)
+    user = session.exec(statement).one()
+    if searching and searching.strip() and user:
         statement = select(Cataloge).where(Cataloge.name.like(f"%{searching.upper()}%"))
-        production = session.exec(statement).all()
+        alls = session.exec(statement).all()
+        production = []
+        for el in alls:
+            if el in user.baskets:
+                production.append(el)
         req["forms"] = production
         req["searching"] = searching
     else:
         statement = select(Cataloge)
         production = session.exec(statement).all()
-        req["forms"] = production
+        req["forms"] = user.baskets
     req["len"] = len(production)
     return templates.TemplateResponse("basket.html", req)
 
@@ -165,6 +170,7 @@ async def read_root(request: Request, session: SessionDep, email: str | None = N
         "searching":"",
         "production": [] # Устанавливаем production по умолчанию пустым списком
     }
+    
     if searching and searching.strip():
         statement = select(Cataloge).where(Cataloge.name.like(f"%{searching.upper()}%"))
         production = session.exec(statement).all()
@@ -196,4 +202,4 @@ def buying(session: SessionDep,request: Request, email:str|None, buy_form: int =
     return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.5; URL='/cataloge?email={email}&searching={searching}'" />""")
 #if __name__ == "__main__":
 #    import uvicorn
-#    uvicorn.run(app, host=HOST, port=PORT)
+#    uvicorn.run(app, host="192.168.0.102", port=8000)
