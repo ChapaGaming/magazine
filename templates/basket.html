@@ -66,17 +66,18 @@
         {% endfor %}
         <script>
             function minus(id){
-            let inputId = "how"+id;
-            let value = document.getElementById(inputId).value;
-            if(value > 1)
-            {
-                document.getElementById(inputId).value = value - 1;
-            }
-
+                let inputId = "how"+id;
+                let value = document.getElementById(inputId).value;
+                if(value == NaN){ value = 1};
+                if(value > 1)
+                {
+                    document.getElementById(inputId).value = value - 1;
+                }
             }
             function plus(id){
                 let inputId = "how"+id;
                 let value = document.getElementById(inputId).value;
+                if(value == NaN){ value = 1};
                 document.getElementById(inputId).value = Number(value) + 1;
 
             }
