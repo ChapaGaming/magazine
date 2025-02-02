@@ -1,0 +1,99 @@
+body {
+    background-color: rgba(255, 114, 118, 1);
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Times New Roman';
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер для центрирования */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирование по горизонтали */
+    justify-content: center; /* Центрирование по вертикали */
+    min-height: 100vh; /* Занимает всю высоту экрана*/
+    box-sizing: border-box;
+}
+.form_login input[type="submit"]:hover,
+.form_reg input[type="submit"]:hover {
+    background-color: rgba(204, 60, 64, 1);
+}
+
+
+.form_login, .form_reg {
+    background-color: rgba(255, 255, 255, 1);
+    padding: 20px;
+    border-radius: 5px;
+    width: 90%; /* Ширина формы 90% от контейнера */
+    max-width: 400px; /* Максимальная ширина формы */
+    margin-bottom: 20px; /* Отступ снизу */
+    font-family: 'Times New Roman';
+    box-sizing: border-box; /* Гарантирует, что padding не увеличивает общую ширину */
+    display: flex; /* Активируем флекс для инпутов */
+    flex-direction: column; /* Располагаем элементы вертикально */
+}
+
+.form_login label, .form_reg label {
+    color: rgba(255, 114, 118, 1);
+     margin-bottom: 5px; /* Отступ снизу у метки */
+     display: block;
+}
+
+.form_login input[type="email"],
+.form_login input[type="password"],
+.form_reg input[type="text"],
+.form_reg input[type="email"],
+.form_reg input[type="password"] {
+     width: calc(100% - 16px); /* Ширина с учетом отступов */
+    padding: 8px; /* Отступы внутри инпута */
+    margin-bottom: 10px; /* Отступ снизу инпута */
+    box-sizing: border-box;
+}
+
+.form_login button[type="submit"],
+.form_reg button[type="submit"] {
+    background-color: rgba(255, 114, 118, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+     box-sizing: border-box;
+    font-family: 'Times New Roman';
+    margin-bottom: 10px;
+}
+a {
+    color: rgba(255, 114, 118, 1);
+    display: block;
+    text-align: center;
+    font-family: 'Times New Roman';
+}
+
+h1 {
+    font-family: 'Times New Roman';
+    text-align: center;
+    margin-bottom: 20px;
+}
+/* Медиазапрос для маленьких экранов*/
+
+@media (max-width: 1176px) {
+   .form_login, .form_reg {
+        width: 95%;
+        font-size: 16px;
+         padding: 25px;
+    }
+     .form_login input[type="email"],
+    .form_login input[type="password"],
+    .form_reg input[type="text"],
+    .form_reg input[type="email"],
+    .form_reg input[type="password"]{
+          padding: 10px;
+    }
+     .form_login label,
+    .form_reg label {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+}

@@ -1,12 +1,12 @@
 /* Общие стили (отключаем полосы прокрутки) */
 body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer и Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   margin-top: 50px;
 }
 
 ::-webkit-scrollbar {
-  display: none; /* WebKit (Chrome, Safari, Opera) */
+  display: none;
 }
 
 /* Стили для текста и заголовков */
@@ -14,14 +14,13 @@ i {
   color: rgb(255, 255, 255);
 }
 
-/* Стили для header */
+/* Стили для header (общие для всех устройств) */
 header {
   position: fixed;
   margin-top: -50px;
   margin-left: -8px;
   background-color: rgba(255, 114, 118, 1);
   width: 100%;
-  max-height: 10%;
   display: flex;
   text-align: justify;
   justify-content: space-between;
@@ -67,44 +66,11 @@ header .header-right {
 
 /* Стили для контейнера с товарами (parent) */
 .parent {
-    width: 500px; /* Фиксированная ширина родителя*/
+  width: 500px;
 }
 
 /* Стили для карточки товара (product) */
 .product {
-    display: flex;
-    flex-direction: row; /* Обязательное условие */
-    align-items: flex-start; /* Выравнивание по верху */
-    justify-content: space-between; /* Распределение пространства между элементами */
-    padding: 10px; /* Отступ для видимых границ */
-    border: 1px solid #ddd; /* Для наглядности */
-    margin-bottom: 10px; /* Отступ между формами */
-}
-
-.product table { /* Делаем таблицы нерастягиваемыми */
-  flex: none; /* Не позволяет таблицам растягиваться */
-  margin-right: 10px;
-}
-.product text {
-  flex: 1; /* Занимает оставшееся пространство */
-  padding: 0 20px; /* Дополнительные отступы */
-  box-sizing: border-box; /* Включает отступы в расчет ширины */
-  word-break: break-all; /* Перенос слов */
-}
-
-.product button[type="submit"] {
-  border-radius: 20px;
-  color: white;
-  font-family: cursive;
-  font-size: 20px;
-  background-color: rgb(17, 202, 26);
-  max-height: 40px;
-  border: 0px;
-}
-.body{margin-top:50px;}
-
-/* Стили для корзины (basket) */
-.basket {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -114,12 +80,49 @@ header .header-right {
   margin-bottom: 10px;
 }
 
-.basket table { /* Делаем таблицы нерастягиваемыми в корзине*/
+.product table {
   flex: none;
   margin-right: 10px;
 }
 
-.basket .basket_parent {
+.product p {
+  flex: 1;
+  padding: 0 20px;
+  box-sizing: border-box;
+  word-break: break-all;
+}
+
+.product button[type="submit"] {
+  border-radius: 20px;
+  color: white;
+  font-family: 'Times New Roman';
+  font-size: 20px;
+  background-color: rgb(17, 202, 26);
+  max-height: 40px;
+  border: 0px;
+}
+
+.production {
+  padding-top: 66px;
+}
+
+/* Стили для корзины (basket) */
+.buying {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.buying table {
+  flex: none;
+  margin-right: 10px;
+}
+
+.buying .basket_parent {
   flex: 1;
   padding: 0 20px;
   box-sizing: border-box;
@@ -130,7 +133,7 @@ header .header-right {
   width: 30px;
   border-radius: 100px;
   color: white;
-  font-family: cursive;
+  font-family: 'Times New Roman';
   font-size: 20px;
   max-height: 40px;
   border: 0px;
@@ -141,28 +144,173 @@ header .header-right {
   width: 30px;
   border-radius: 100px;
   color: white;
-  font-family: cursive;
+  font-family: 'Times New Roman';
   font-size: 20px;
   max-height: 40px;
   border: 0px;
   background-color: rgb(202, 17, 17);
 }
-.amounter{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    gap:10px;
 
+.amounter {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
 }
-.basker_N{
+
+.basker_N {
   font-size: larger;
   font-style: normal;
   width: 40px;
   border: 0px;
   margin-top: 20px;
 }
-basker_N[readonly]
-{
-    background-color:blue;
+
+@media (min-width: 991px) {basker_N[readonly] {
+  background-color: blue;
+}
+.text_submit{
+  display: none;
+  position: relative;
+}}
+
+/* Стили для мобильного режима (каталог) */
+@media (max-width: 991px) {
+
+  header {
+      position: fixed;
+      margin-top: -50px;
+      margin-left: -8px;
+      background-color: rgba(255, 114, 118, 1);
+      width: 100%;
+      display: flex;
+      text-align: justify;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+  }
+
+  header .header-left {
+      transform: translate(5px, 0);
+      display: flex;
+      gap: 9px;
+      align-items: center;
+  }
+
+  header .header-right {
+      transform: translate(-10px, 0);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+  }
+
+  .logo,
+  .buy {
+      width: 40px;
+      height: 40px;
+  }
+
+  b {
+      font-size: 10px;
+      left: -20px;
+  }
+
+  .found {
+      width: 100px;
+      margin-left: -10px;
+  }
+
+  .production {
+      padding-top: 13px;
+  }
+
+  .product button[type="submit"] {
+      font-size: 13px;
+      width: 80px;
+  }
+
+  .product p {
+      font-size: 12px;
+  }
+
+  .product h3 {
+      font-size: 15px;
+  }
+
+  .product h5 {
+      font-size: 10px;
+  }
+}
+
+/* Стили для мобильного режима (корзина) */
+@media (max-width: 991px){
+
+  .basket_header {
+      position: fixed;
+      margin-top: -50px;
+      margin-left: -8px;
+      background-color: rgba(255, 114, 118, 1);
+      width: 100%;
+      display: flex;
+      text-align: justify;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+  }
+
+  .basket_header .header-left {
+      transform: translate(5px, 0);
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      width: auto;
+  }
+
+  .basket_header .header-right {
+      transform: translate(-10px, 0);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: auto;
+  }
+
+  .basket_header .logo,
+  .basket_header .buy {
+      width: 40px;
+      height: 40px;
+  }
+
+  .basket_header b {
+      font-size: 10px;
+      left: -20px;
+  }
+
+  .basket_header .found {
+      width: 100px;
+      margin-left: -10px;
+  }
+  .description_basket {
+      font-size: 10px;
+  }
+  .basker_N{
+    border-width: 3px;
+    border-color: black;
+  }
+  .plus, .minus{
+    display: none;
+  }
+  .buying form table{
+    max-width: 100px;  }
+  .buying form table tr td h3 {
+      font-size: 10px;
+  }
+
+  .buying form table tr td h5 {
+      font-size: 10px;
+  }
 }

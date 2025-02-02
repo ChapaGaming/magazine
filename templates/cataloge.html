@@ -2,52 +2,39 @@
 <html lang="ru">
 <head>
     <title>Каталог</title>
-    <link rel="stylesheet" href="https://magazine-4pqo.onrender.com/static/style.css">
-    
+    <link rel="stylesheet" href="https://magazine-4pqo.onrender.com//static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/logo.ico">
 </head>
-    
+<body>
     <header>
-       <div class="header-left">
-            <a href = "https://magazine-4pqo.onrender.com/cataloge?email={{email}}&searching={{searching}}"><img class = "logo" src="/static/logo.ico" ></a>
+        <div class="header-left">
+            <a href="https://magazine-4pqo.onrender.com//cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="/static/logo.ico"></a>
             <b><i><h1>МАГАЗИН</h1></i></b>
-       </div>
-       <div class="header-right">
-            <form name = "found" method="get" action="/cataloge?email={{email}}">
-                <table  style="margin-top: -10px;">
-                    <tr><td><input name="email" value = "{{email}}" style="visibility:hidden; width: 0px; height: 0px;"></td></tr>
-                    <tr><td><input name="searching" class="found" placeholder="поиск..." value="{{searching}}"></td></tr> 
-                    
-                </table>
-                <button type="submit" style="visibility:hidden; width: 0px; height: 0px;"></button>
-            </form>
-            <a href = "https://magazine-4pqo.onrender.com/basket/?email={{email}}"><img class = "buy"src="/static/shop.ico"></a>
-       </div>
+        </div>
+        <div class="header-right">
+            <form name="found" method="get" action="/cataloge?email={{email}}">
+                <input type="hidden" name="email" value="{{email}}">
+                <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
+                <button type="submit" style="display: none;"></button> </form>
+            <a href="https://magazine-4pqo.onrender.com//basket/?email={{email}}"><img class="buy" src="/static/shop.ico"></a>
+        </div>
     </header>
-    <br>
-    <body>
-    <div class = "production">
-        <br><br>
+    <div class="production">
         {% for product in production %}
-            <form action = "/cataloge?email={{email}}" name = "place "class = "product" method="post">
-                <table>
-                    <tr>
-                        <td><h3>{{product.name}}</h3></td>
-                    </tr>
-                    <tr>
-                        <td><h5>Цена: {{product.cost}} рублей</h5></td>
-                    </tr>
-                </table>
-                <text name = "description"class = "description" > {{product.description}}</text>
-                <table>
-                    <tr>
-                        <td><h3><button class = "buy" type = "submit" name = "buy_form" value = "{{product.id}}">купить</button></h3></td>
-                    </tr>
-                    <tr>
-                        <td><h5>В наличии: {{product.amount}}</h5></td>
-                    </tr>
-                </table>
+            <form action="/cataloge?email={{email}}" name="place" class="product" method="post">
+                <div class="product-info">
+                    <h3>{{product.name}}</h3>
+                    <h5>Цена: {{product.cost}} ₽</h5>
+                </div>
+                <div class="product-description">
+                    <p>{{product.description}}</p> </div>
+                <div class="product-actions">
+                    <button class="buy" type="submit" name="buy_form" value="{{product.id}}">Купить</button>
+                    <h5>В наличии: {{product.amount}}</h5>
+                </div>
             </form>
         {% endfor %}
     </div>
-    </body>
+</body>
 </html>

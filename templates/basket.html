@@ -1,60 +1,58 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/logo.ico">
+
 </head>
-<body>
-    <header>
+<body class="basket_body">
+    <header class="basket_header">
         <div class="header-left">
-            <a href="https://magazine-4pqo.onrender.com/basket?email={{email}}">
-                <img class="buy" src="/static/shop.ico">
-            </a>
+            <a href="https://magazine-4pqo.onrender.com//cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="/static/logo.ico"></a>
             <b><i><h1>КОРЗИНА</h1></i></b>
         </div>
         <div class="header-right">
-            <form name = "found" method="get" action="/basket?email={{email}}">
-                <table  style="margin-top: -10px;">
-                    
-                    <tr><td><input name="email" value = "{{email}}" type="hidden"></td></tr>
-                    <tr><td><input name="searching" class="found" placeholder="поиск..." value="{{searching}}"></td></tr> 
-                </table>
-                <button type="submit" style="visibility:hidden; width: 0px; height: 0px;"></button>
-            </form>
-            <a href="https://magazine-4pqo.onrender.com/cataloge?email={{email}}">
-                <img class="logo" src="/static/logo.ico">
-            </a>
+            <form name="found" method="get" action="/basket?email={{email}}">
+                <input type="hidden" name="email" value="{{email}}">
+                <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
+                <button type="submit" style="display: none;"></button> </form>
+            <a href="https://magazine-4pqo.onrender.com//basket/?email={{email}}"><img class="buy" src="/static/shop.ico"></a>
         </div>
     </header>
-
-    <div class="basket_parent">
-        <br><br><br>
+    <div class="basket_parent"><br><br><br><br>
         {% for product in forms %}
-        <form action="/basket?email={{email}}" name="place" class="basket" method="post">
+        <form action="/basket?email={{email}}" name="place" class="buying" method="post">
             <table>
                 <tr>
                     <td><h3>{{ product.name }}</h3></td>
                 </tr>
                 <tr>
-                    <td><h5>Цена: {{ product.cost }} рублей</h5></td>
+                    <td><h5>Цена: {{ product.cost }} ₽</h5></td>
                 </tr>
             </table>
-            <p name = "description"class = "description" >{{ product.description }}</p>
+            <p name="description" class="description">{{ product.description }}</p>
             <table>
                 <tr>
                     <td class="amounter">
                         <input type="hidden" name="action" value="">
                         <h3>
-                            <input class="minus" type="button" name="bminus" onclick="minus( {{product.id}} )" value = "-">
+                            <input class="minus" type="button" name="bminus" onclick="minus( {{product.id}} )" value="-">
                         </h3>
-                        <input type="number" id = "how{{ product.id }}" class = "basker_N" value = "1" name = "how">
+                        <table border = "1">
+                            <tr>
+                                <td class = "text_submit"><label for="basker_N"style="position: relative; top: 10px;">Количество:</label></td>
+                                <td><input type="number" id="how{{ product.id }}" class="basker_N" value="1" name="how"></td>
+                            </tr>
+                        </table>
                         <h3>
-                            <input class="plus"  type="button" name="bplus" onclick="plus( {{product.id}} )" value = "+">
+                            <input class="plus" type="button" name="bplus" onclick="plus( {{product.id}} )" value="+">
                         </h3>
                     </td>
                 </tr>
                 <tr>
-                    <td><h5>В наличии: {{ product.amount }}</h5></td>
+                    <td><h5 style="position: relative; left:10px;">В наличии: {{ product.amount }}</h5></td>
                 </tr>
             </table>
         </form>
@@ -63,21 +61,23 @@
         </script>
         {% endfor %}
         <script>
-            function minus(id){
-                let inputId = "how"+id;
+            function minus(id) {
+                let inputId = "how" + id;
                 let value = document.getElementById(inputId).value;
-                if(isNaN(value)){ value = 1};
-                if(value > 1)
-                {
+                if (isNaN(value)) {
+                    value = 1;
+                }
+                if (value > 1) {
                     document.getElementById(inputId).value = value - 1;
                 }
             }
-            function plus(id){
-                let inputId = "how"+id;
+            function plus(id) {
+                let inputId = "how" + id;
                 let value = document.getElementById(inputId).value;
-                if(isNaN(value)){ value = 1};
+                if (isNaN(value)) {
+                    value = 1;
+                }
                 document.getElementById(inputId).value = Number(value) + 1;
-
             }
         </script>
     </div>
