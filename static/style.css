@@ -226,7 +226,9 @@ header .header-right {
   .production {
       padding-top: 13px;
   }
-
+  .product{
+    max-height: 150px;
+  }
   .product button[type="submit"] {
       font-size: 13px;
       width: 80px;
@@ -243,10 +245,7 @@ header .header-right {
   .product h5 {
       font-size: 10px;
   }
-}
 
-/* Стили для мобильного режима (корзина) */
-@media (max-width: 991px){
 
   .basket_header {
       position: fixed;
@@ -296,6 +295,7 @@ header .header-right {
   }
   .description_basket {
       font-size: 10px;
+      flex-shrink: 0;
   }
   .basker_N{
     border-width: 3px;
@@ -304,13 +304,23 @@ header .header-right {
   .plus, .minus{
     display: none;
   }
-  .buying form table{
-    max-width: 100px;  }
-  .buying form table tr td h3 {
-      font-size: 10px;
+  .basket_info{
+    table-layout: fixed;
+    width: 90px;
+    overflow-wrap: break-word;
   }
-
-  .buying form table tr td h5 {
-      font-size: 10px;
+  .basket_info tr td{
+    width: 100px;
+  }
+  .basket_amount{
+    position: relative;
+    left: 10px;
+    table-layout: fixed;
+    width: 100px;
+    height: 100%;
+    overflow-wrap: break-word;
+  }
+  .text_submit{
+    font-size: 15px;
   }
 }
