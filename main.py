@@ -52,7 +52,18 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, connect_args=connect_args)
 SessionDep = Annotated[Session, Depends(get_session)]
-
+# функции связанные с fastapi
+def go_login(session,email):
+    
+    try:
+        statement = select(User).where(User.email == email)
+        user = len(session.exec(statement).all())
+        if user == 1:
+            return False
+        else:
+            return True
+    except:
+        return True
 # функции не связанные с fastapi
 def clear_db(db):
     with Session(engine) as session:
@@ -137,7 +148,9 @@ def read_root(session: SessionDep, description: str = Form(...), name: str = For
         return HTMLResponse(content='<h1 style = "color: red;">Цена и количество не могут быть символами</h1>') 
 
 @app.get("/basket/", response_class=HTMLResponse)
-def basket(session: SessionDep, request: Request, email:str|None, searching: str | None = None):
+def read_root(session: SessionDep, request: Request, email:str|None, searching: str | None = None):
+    if go_login(session,email):
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.001; URL='/'" />""")
     req = {
         "request": request,
         "searching":"",
@@ -185,7 +198,9 @@ async def read_root(request: Request, session: SessionDep, email: str | None = N
     return templates.TemplateResponse("cataloge.html", req)
 
 @app.post("/cataloge", response_class=HTMLResponse)
-def buying(session: SessionDep,request: Request, email:str|None, buy_form: int = Form(...), searching: str | None = None):
+def read_root(session: SessionDep,request: Request, email:str|None, buy_form: int = Form(...), searching: str | None = None):
+    if go_login(session,email):
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.001; URL='/'" />""")
     id = buy_form
     product = session.get(Cataloge,id)
     scalar = select(User).where(User.email == email)
