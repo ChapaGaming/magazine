@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, staticfiles, Reque
 from sqlmodel import Field, Session, SQLModel, create_engine, select, Relationship, or_, and_
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from sqlalchemy.pool import QueuePool
 from typing import Annotated
 from sqlalchemy import func
 import hashlib
@@ -49,8 +50,8 @@ def get_session(): #создание сессии
 sqlite_file_name = "db/database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 
-connect_args = {"check_same_thread": False}
-engine = create_engine(sqlite_url, connect_args=connect_args)
+connect_args = {"check_same_thread": False,}
+engine = create_engine(sqlite_url, poolclass=QueuePool, pool_size=10, max_overflow=20, pool_recycle=3600, connect_args=connect_args)
 SessionDep = Annotated[Session, Depends(get_session)]
 # функции связанные с fastapi
 def go_login(session,email):
