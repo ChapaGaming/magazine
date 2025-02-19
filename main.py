@@ -221,7 +221,7 @@ def buying(session: SessionDep,request: Request, email:str|None,id: int = Form(.
         product.willings.append(user)
         session.add(product)
         session.commit()
-        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.5; URL='/cataloge?email={email}&searching={searching}'" />""")
+        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/cataloge?email={email}&searching={searching}'" />""")
     elif buy_form == "sell":
         product = session.get(Cataloge,id)
         scalar = select(User).where(User.email == email)
@@ -230,7 +230,7 @@ def buying(session: SessionDep,request: Request, email:str|None,id: int = Form(.
             user.baskets.remove(product)
             session.add(user)
             session.commit()
-            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.5; URL='/cataloge?email={email}&searching={searching}'" />""")
+            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/cataloge?email={email}&searching={searching}'" />""")
         return HTMLResponse(content='<h1 style = "color: red;">товар уже убран из корзины</h1>')
     else:
         return HTMLResponse(content='<h1 style = "color: red;">500 error</h1>')
