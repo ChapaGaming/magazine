@@ -9,11 +9,11 @@
 <body>
     <header>
         <div class="header-left">
-            <a href="https://magazine-4pqo.onrender.com/cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="https://magazine-4pqo.onrender.com/static/logo.ico"></a>
+            <a href="https://magazine-4pqo.onrender.com/?email={{email}}&searching={{searching}}"><img class="logo" src="https://magazine-4pqo.onrender.com/static/logo.ico"></a>
             <b><i><h1>МАГАЗИН</h1></i></b>
         </div>
         <div class="header-right">
-            <form name="found" method="get" action="/cataloge?email={{email}}">
+            <form name="found" method="get" action="/?email={{email}}">
                 <input type="hidden" name="email" value="{{email}}">
                 <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
                 <button type="submit" style="display: none;"></button> </form>
@@ -22,7 +22,7 @@
     </header>
     <div class="production">
         {% for product in production %}
-            <form action="/cataloge?email={{email}}" name="place" class="product" method="post">
+            <form action="/?email={{email}}" name="place" class="product" method="post">
                 <div class="product-info">
                     <h3>{{product.name}}</h3>
                     <h5>Цена: {{product.cost}} ₽</h5>

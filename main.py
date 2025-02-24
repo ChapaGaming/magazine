@@ -86,12 +86,12 @@ def lifespan():
 @app.on_event("startup")
 def on_start():
     create_db_and_tables()
-@app.get("/",response_class=HTMLResponse)
+@app.get("/login",response_class=HTMLResponse)
 def read_root(request: Request):
     req = {"request": request}
     return templates.TemplateResponse("login.html", req)
 
-@app.post("/")
+@app.post("/login")
 def read_root(session:SessionDep, request: Request, password: str|None = Form(...), email: str|None = Form(...)):
     hash_e =hashing(email)
     hash_pas = hashing(password)
@@ -99,7 +99,7 @@ def read_root(session:SessionDep, request: Request, password: str|None = Form(..
     result = session.exec(statement)
     first = result.first()
     if not (first is None):
-        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.1; URL='/cataloge?email={hash_e}'" />""")
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.1; URL='/?email={hash_e}'" />""")
     return HTMLResponse(content=f'<h1 style = "color: red;">Пользователь не найден</h1>')
 
 @app.get("/register",response_class=HTMLResponse)
@@ -126,7 +126,7 @@ def read_root(session: SessionDep, request: Request, username: str = Form(...), 
         session.add(user)
         session.commit()
         session.refresh(user)
-        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="2; URL='/'" />""")
+        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="2; URL='/login'" />""")
     return f'<h1 style = "color: red;">Пароли не совпадают</h1>'
 
 @app.get("/admin/add", response_class=HTMLResponse)
@@ -144,7 +144,7 @@ def read_root(session: SessionDep, description: str = Form(...), name: str = For
             session.add(product)
             session.commit()
             session.refresh(product)
-            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="2; URL='/'" />""")
+            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="2; URL='/login'" />""")
         return HTMLResponse(content='<h1 style = "color: red;">Ошибочные данные</h1>')
     except ValueError:
         return HTMLResponse(content='<h1 style = "color: red;">Цена и количество не могут быть символами</h1>') 
@@ -152,7 +152,7 @@ def read_root(session: SessionDep, description: str = Form(...), name: str = For
 @app.get("/basket/", response_class=HTMLResponse)
 def basket(session: SessionDep, request: Request, email:str|None, searching: str | None = None):
     if go_login(session,email):
-        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.001; URL='/'" />""")
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.001; URL='/login'" />""")
     req = {
         "request": request,
         "searching":"",
@@ -177,7 +177,7 @@ def basket(session: SessionDep, request: Request, email:str|None, searching: str
     req["len"] = len(production)
     return templates.TemplateResponse("basket.html", req)
 
-@app.get("/cataloge", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request, session: SessionDep, email: str | None = None, searching: str | None = None):
     req = {
         "request": request,
@@ -204,8 +204,10 @@ async def read_root(request: Request, session: SessionDep, email: str | None = N
         print(req["production"][0].willings)
     return templates.TemplateResponse("cataloge.html", req)
 
-@app.post("/cataloge", response_class=HTMLResponse)
+@app.post("/", response_class=HTMLResponse)
 def buying(session: SessionDep,request: Request, email:str|None,id: int = Form(...),buy_form: str = Form(...), searching: str | None = None):
+    if go_login(session,email):
+        return HTMLResponse(content=f"""<meta http-equiv="refresh" content="0.001; URL='/login'" />""")
     if not searching:
         searching=""
     if buy_form == "buy":
@@ -221,7 +223,7 @@ def buying(session: SessionDep,request: Request, email:str|None,id: int = Form(.
         product.willings.append(user)
         session.add(product)
         session.commit()
-        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/cataloge?email={email}&searching={searching}'" />""")
+        return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/?email={email}&searching={searching}'" />""")
     elif buy_form == "sell":
         product = session.get(Cataloge,id)
         scalar = select(User).where(User.email == email)
@@ -230,11 +232,11 @@ def buying(session: SessionDep,request: Request, email:str|None,id: int = Form(.
             user.baskets.remove(product)
             session.add(user)
             session.commit()
-            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/cataloge?email={email}&searching={searching}'" />""")
+            return HTMLResponse(content=f"""<h1 style = "color: green;">Успешно</h1>> <meta http-equiv="refresh" content="0.005; URL='/?email={email}&searching={searching}'" />""")
         return HTMLResponse(content='<h1 style = "color: red;">товар уже убран из корзины</h1>')
     else:
         return HTMLResponse(content='<h1 style = "color: red;">500 error</h1>')
     
-#if __name__ == "__main__":
-#    import uvicorn
-#    uvicorn.run(app, host="192.168.0.104", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
