@@ -2,41 +2,42 @@
 <html lang="ru">
 <head>
     <title>Каталог</title>
-    <link rel="stylesheet" href="https://magazine-4pqo.onrender.com/static/style.css">
+    <link rel="stylesheet" href="static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="https://magazine-4pqo.onrender.com/static/logo.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="static/logo.ico">
 </head>
 <body>
     <header>
         <div class="header-left">
-            <a href="https://magazine-4pqo.onrender.com/?email={{email}}&searching={{searching}}"><img class="logo" src="https://magazine-4pqo.onrender.com/static/logo.ico"></a>
-            <b><i><h1>МАГАЗИН</h1></i></b>
+            <a href="http://127.0.0.1:8000/cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="static/logo.ico"></a>
+            <b><i><h1>КАТАЛОГ</h1></i></b>
         </div>
         <div class="header-right">
-            <form name="found" method="get" action="/?email={{email}}">
+            <form name="found" method="get" action="/cataloge?email={{email}}">
                 <input type="hidden" name="email" value="{{email}}">
                 <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
                 <button type="submit" style="display: none;"></button> </form>
-            <a href="https://magazine-4pqo.onrender.com/basket?email={{email}}"><img class="buy" src="https://magazine-4pqo.onrender.com/static/shop.ico"></a>
+            <a href="http://127.0.0.1:8000/basket/?email={{email}}"><img id = "basket" class="buy" src="static/basket.ico"></a>
         </div>
     </header>
     <div class="production">
+        {% if seller %}
+        <p><center style="color: rgb(221, 60, 92);">Здравтвуйте, продавец мы можете зайти в <a  style="color: rgb(255, 6, 6); font-size: large;" href = "http://127.0.0.1:8000/editor?email={{email}}">Заказы</a></center></p>
+        {% endif %}
         {% for product in production %}
-            <form action="/?email={{email}}" name="place" class="product" method="post">
+            <form action="/cataloge?email={{email}}" name="place" class="product" method="post">
                 <div class="product-info">
-                    <h3>{{product.name}}</h3>
+                    <h3>{{product.model}}</h3>
+                    Цвет: {{product.color}}
                     <h5>Цена: {{product.cost}} ₽</h5>
                 </div>
                 <div class="product-description">
-                    <p>{{product.description}}</p> </div>
+                </div>
                 <div class="product-actions">
-                    <input type="hidden" value = "{{product.id}}" name = "id">
-                    {% if user in product.willings %}
-                        <button class="buy" type="submit" style="background-color: rgb(202, 17, 17);" name="buy_form" value="sell">В корзине</button>   
-                    {% else %}
-                        <button class="buy" type="submit" name="buy_form" value="buy">Купить</button>
-                    {% endif %}
-                    <h5>В наличии: {{product.amount}}</h5>
+                    <button class="buy" type="submit" name="buy_form" value="{{product.id}}">Заказать</button>
+                    <h5>
+                        {{product.kind}}
+                    </h5>
                 </div>
             </form>
         {% endfor %}

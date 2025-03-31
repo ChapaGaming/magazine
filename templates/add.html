@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Каталог</title>
+    <link rel="stylesheet" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="static/logo.ico">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="http://127.0.0.1:8000/cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="static/logo.ico"></a>
+            <b><i><h1>РЕГИСТРАЦИЯ ТОВАРА</h1></i></b>
+        </div>
+        <div class="header-right">
+            <form name="found" method="get" action="/cataloge?email={{email}}">
+                <input type="hidden" name="email" value="{{email}}">
+                <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
+                <button type="submit" style="display: none;"></button> </form>
+            <a href="http://127.0.0.1:8000/basket/?email={{email}}"><img id = "basket" class="buy" src="static/basket.ico"></a>
+        </div>
+    </header>
+    <br>
+    <br>
+    <p></p><br>
+    <center><form style = "font-size: 25px;" method="POST" action = "http://127.0.0.1:8000/add?email={{email}}" class="creator">
+        <div>
+        <label>Модель:  </label><input name = "model" minlength="1"><br>
+        <label>Цвет:  </label><input name = "color" minlength="1"><br>
+        <label>На складе? </label><input name = "in_stage" value = "1" type = "radio" minlength="1" checked />Да <input name = "in_stage" value = "0" type = "radio" minlength="1">Нет<br>
+        <label>Цена: </label><input type = "number" name = "cost" minlength="1">
+        
+        </div>
+        <div>
+        <label>Состояние:</label><br>
+        
+            <input name = "kind" type = "radio" value="На складе" checked />На складе<br>
+            <input name = "kind" type = "radio" value="На рассмотрении">На рассмотрении<br>
+            <input name = "kind" type = "radio" value="В доставке">В доставке<br>
+            <input name = "kind" type = "radio" value="В диллерском центре">В диллерском центре
+        </div>
+        <button style = "width: 120px;" type = "submit"><b>Создать</b></button>
+    </form></center>
+</body>
+</html>

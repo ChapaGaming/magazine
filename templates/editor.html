@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Подтверждение</title>
+    <link rel="stylesheet" href="static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="static/logo.ico">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="http://127.0.0.1:8000/cataloge?email={{email}}&searching={{searching}}"><img class="logo" src="static/logo.ico"></a>
+            <b><i><h1>ПОДТВЕРЖДЕНИЕ</h1></i></b>
+        </div>
+        <div class="header-right">
+            <form name="found" method="get" action="/cataloge?email={{email}}">
+                <input type="hidden" name="email" value="{{email}}">
+                <input type="text" name="searching" class="found" placeholder="поиск..." value="{{searching}}">
+                <button type="submit" style="display: none;"></button> </form>
+            <a href="http://127.0.0.1:8000/basket/?email={{email}}"><img id = "basket" class="buy" src="static/basket.ico"></a>
+        </div>
+    </header>
+    
+    <div class="production">
+        {% for product in production %}
+            <form action="/editor?email={{email}}&searching=" name="place" class="product" method="post">
+                <div class="product-info">
+                    <h3>{{product.model}}</h3>
+                    Цвет: {{product.color}}
+                    <h5>Цена: {{product.cost}} ₽</h5>
+                    
+                </div>
+                <div class="product-description">
+                    
+                    <ol>
+                        Желающие купить:
+                        {% for user in product.willings %}
+                        <li>{{user.FIO}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div>
+                    Текущее состояние<br>
+                    <input name = "kind" type = "radio" value="На складе" {% if product.kind == "На складе" %} checked {% endif %}>На складе<br>
+                    <input name = "kind" type = "radio" value="На рассмотрении" {% if product.kind == "На рассмотрении" %} checked {% endif %}>На рассмотрении<br>
+                    <input name = "kind" type = "radio" value="В доставке" {% if product.kind == "В доставке" %} checked {% endif %}>В доставке<br>
+                    <input name = "kind" type = "radio" value="В диллерском центре" {% if product.kind == "В диллерском центре" %} checked {% endif %}>В диллерском центре
+                </div>
+                <div class="product-inputs" >
+                    Покупатель: <select name = "FIO_user" style = "width: 200px; height: 30px;">
+                        <option value="Не определён">Не определён</option>
+                        {% for user in product.willings %}
+                        <option value="{{user.FIO}}">{{user.FIO}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <button class="buy" type="submit" name="acc_form" value="{{product.id}}up_">Обновить</button><br>
+                    <button class="buy" style="background-color: red; font-size: small;" type="submit" name="acc_form" value="{{product.id}}del">Удалить товар</button>
+                    
+                    <h5>
+                        {{product.kind}}
+                    </h5>
+                </div>
+            </form>
+        {% endfor %}
+        
+        <center><button class = "add_el" onclick="add()">+</button></center>
+    </div>
+</body>
+<script>
+    function add(){
+        window.location.href = "add?email={{email}}"
+    }
+</script>
+</html>
