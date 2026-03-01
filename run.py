@@ -18,17 +18,10 @@ import jwt
 import asyncio
 from dotenv import load_dotenv, dotenv_values
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # Это поможет IDE и, в некоторых случаях, рантайму
-    pass
-# Но для рантайма на сервере можно попробовать так:
-_Promises = "Promises"
-_Users = "Users"
-_Things = "Things"
-
-from models import Users, Things ,Promises
 # Определяем окружение
+IS_PRODUCTION = os.getenv("RENDER", False) or os.getenv("RAILWAY", False)
+
+# Загружаем конфиг из переменных окружения
 config = {
     "DATABASE_URL": os.getenv("DATABASE_URL"),
     "SECRET_KEY": os.getenv("SECRET_KEY"),
@@ -36,11 +29,16 @@ config = {
     "REGISTER_KEY": os.getenv("REGISTER_KEY")
 }
 
+# Проверяем, что все необходимые переменные есть
+missing_vars = [k for k, v in config.items() if v is None and k != "JWT_CODER"]
+if missing_vars:
+    raise Exception(f"Missing environment variables: {missing_vars}")
+
 print(f"🚀 Запуск в {'production' if IS_PRODUCTION else 'development'} режиме")
 print(f"📦 База данных: {config['DATABASE_URL']}")
 
-# Настройка базы данных - всегда SQLite с aiosqlite
-database_url = "sqlite+aiosqlite:///./database.db"
+# Импортируем модели ПОСЛЕ определения конфига
+from models import Users, Things, Promises
 
 # Параметры для SQLite
 connect_args = {"check_same_thread": False}
