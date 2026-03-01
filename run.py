@@ -29,19 +29,12 @@ _Things = "Things"
 
 from models import Users, Things ,Promises
 # Определяем окружение
-IS_PRODUCTION = os.getenv("RENDER", False)
-
-load_dotenv()
-config = dotenv_values(".env")
-
-# Для Render используем переменные окружения напрямую
-if IS_PRODUCTION:
-    config = {
-        "DATABASE_URL": os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./database.db"),
-        "SECRET_KEY": os.getenv("SECRET_KEY"),
-        "JWT_CODER": os.getenv("JWT_CODER", "HS256"),
-        "REGISTER_KEY": os.getenv("REGISTER_KEY")
-    }
+config = {
+    "DATABASE_URL": os.getenv("DATABASE_URL"),
+    "SECRET_KEY": os.getenv("SECRET_KEY"),
+    "JWT_CODER": os.getenv("JWT_CODER", "HS256"),
+    "REGISTER_KEY": os.getenv("REGISTER_KEY")
+}
 
 print(f"🚀 Запуск в {'production' if IS_PRODUCTION else 'development'} режиме")
 print(f"📦 База данных: {config['DATABASE_URL']}")
